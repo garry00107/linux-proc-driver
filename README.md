@@ -1,104 +1,135 @@
-# linux-proc-driver
-A simple Linux device driver using proc files with a Python user-space application.
 
-# linux-proc-driver
-A simple Linux device driver using proc files with a Python user-space application.
-
-
-
+## **📄 Updated README.md**
+```md
 # Linux Proc File Driver
 
-This project demonstrates a simple **Linux kernel module** that creates a **proc file** (`/proc/Pyjama_driver`). The module supports **read** operations, allowing a user-space application (`user-app.py`) to communicate with the kernel.
+This project demonstrates a **Linux kernel module** that creates a **proc file** (`/proc/Pyjama_driver`).  
+The module supports **read/write** operations, allowing a user-space application (`user-app.py`) to communicate with the kernel.
+
+---
 
 ## 🚀 Features
-- Creates a **proc file** (`/proc/Pyjama_driver`).
-- Supports **read operations** from user space.
-- Written in **C** for the kernel module and **Python** for the user-space application.
-- Uses **Multipass** for Ubuntu virtual machine execution.
+- **Proc file interaction** (`/proc/Pyjama_driver`).
+- **Read/Write support** from user space.
+- **Kernel message logging** (`dmesg`).
+- **Multipass VM** for testing.
+- **Python user-space applications** for interacting with the kernel.
 
 ---
 
 ## 🛠 Setup & Installation
 
 ### **1️⃣ Clone the Repository**
-
+```sh
 git clone https://github.com/garry00107/linux-proc-driver.git
 cd linux-proc-driver
 ```
 
 ### **2️⃣ Build the Kernel Module**
-```
+```sh
 make
 ```
 
-### **3️⃣ Load the Module**
-```
+### **3️⃣ Load the Module (`insmod`)**
+```sh
 sudo insmod ldd.ko
 ```
 
-### **4️⃣ Verify the Module is Loaded**
-```
+### **4️⃣ Verify the Module is Loaded (`lsmod`)**
+```sh
 lsmod | grep ldd
 ```
+This command checks if the module is successfully loaded.
 
-### **5️⃣ Check the Kernel Logs**
-```
+### **5️⃣ View Kernel Logs (`dmesg`)**
+```sh
 dmesg | tail -10
 ```
+It shows recent kernel messages, including those from our module.
 
-### **6️⃣ Read from the Proc File**
-Run the user-space Python application:
+### **6️⃣ Clear Kernel Logs (`dmesg -c`)**
+```sh
+sudo dmesg -c
 ```
+This clears kernel logs, useful for debugging new changes.
+
+### **7️⃣ Read from the Proc File**
+Run the **basic read application**:
+```sh
 python3 user-app.py
+```
 
+### **8️⃣ Read & Write to the Proc File**
+Run the **advanced read/write application**:
+```sh
+python3 user-app-rw.py
+```
 
-### **7️⃣ Unload the Module**
-
+### **9️⃣ Unload the Module (`rmmod`)**
+```sh
 sudo rmmod ldd
-``
+```
 
 ---
 
 ## 📂 Project Structure
 
-``
+```
 📂 linux-proc-driver
-├── 📄 ldd.c           # Kernel module source code
+├── 📄 ldd.c           # Kernel module source code (read & write support)
 ├── 📄 Makefile        # Compilation instructions
-├── 📄 user-app.py     # Python user-space application
+├── 📄 user-app.py     # Basic Python user-space application (read only)
+├── 📄 user-app-rw.py  # Advanced Python app (read & write)
 └── 📄 README.md       # Project documentation
-``
+```
 
 ---
 
 ## 📝 Code Explanation
 
 ### **Kernel Module (`ldd.c`)**
-- Creates a proc file (`/proc/Pyjama_driver`).
-- Implements **read** operation (`pyjama_read`).
-- Uses `proc_create()` and `proc_remove()` to manage the file.
+- Creates a **proc file** at `/proc/Pyjama_driver`.
+- Implements **read** and **write** operations.
+- Uses `proc_create()` and `proc_remove()` for file management.
+- Logs messages using `printk()` (visible via `dmesg`).
 
 ### **Makefile**
-- Compiles the kernel module using the **Linux kernel headers**.
+- Compiles the **kernel module** using system headers.
 
-### **User-Space Application (`user-app.py`)**
-- Opens `/proc/Pyjama_driver` and reads data from the kernel.
+### **User-Space Applications**
+#### **1️⃣ `user-app.py` (Read-Only)**
+- Opens `/proc/Pyjama_driver` and **reads messages** from the kernel.
+
+#### **2️⃣ `user-app-rw.py` (Read/Write)**
+- **Writes messages** to the kernel and **reads responses**.
+- Helps test the **write functionality** of the proc file.
 
 ---
 
 ## 🔧 Troubleshooting
-### **"insmod: ERROR: could not insert module: Invalid format"**
+
+### **1️⃣ "insmod: ERROR: could not insert module: Invalid format"**
 - Ensure you are using the correct **kernel version**:
-  
+  ```sh
   uname -r
   ```
-- Recompile using:
-  
+- Recompile the module using:
+  ```sh
   make clean && make
   ```
 
-### **"Permission denied" when loading the module**
+### **2️⃣ "Permission denied" when loading the module**
 - Use `sudo` when running `insmod` or `rmmod`.
+
+### **3️⃣ "No such file or directory" when accessing `/proc/Pyjama_driver`**
+- Ensure the module is **loaded**:
+  ```sh
+  lsmod | grep ldd
+  ```
+- If missing, reload the module:
+  ```sh
+  sudo insmod ldd.ko
+  ```
 
 ---
 
@@ -108,7 +139,9 @@ This project is licensed under the **MIT License**.
 ---
 
 ## 🙌 Acknowledgments
-- Inspired by **Linux Device Drivers** course.
-- Developed using **Multipass** for virtualization.
-  
+- Developed as part of a **Linux Device Drivers** course.
+- Tested using **Multipass** for virtualization.
+```
+
+---
 
