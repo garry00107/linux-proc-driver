@@ -58,6 +58,12 @@ Run the **basic read application**:
 ```sh
 python3 user-app.py
 ```
+** Read & Write to the Proc File
+Run the advanced read/write application:
+
+python3 user-app-rw.py
+Read from the driver: The app will display messages stored in the kernel.
+Write to the driver: The app allows you to send messages to the kernel.
 
 ### **8️⃣ Read & Write to the Proc File**
 Run the **advanced read/write application**:
