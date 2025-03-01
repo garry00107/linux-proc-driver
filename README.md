@@ -142,6 +142,10 @@ This project is licensed under the **MIT License**.
 - Developed as part of a **Linux Device Drivers** course.
 - Tested using **Multipass** for virtualization.
 ```
+<<<<<<< HEAD
 
 ---
+=======
+>>>>>>> 289b387 (Updated README, modified ldd.c, and added user-app-rw.py)
 
+---
