@@ -2,7 +2,7 @@
 #include <linux/module.h>
 #include <linux/proc_fs.h>
 
-MODULE_LICENSE("GPL");
+MODULE_LICENSE("MIT");
 MODULE_AUTHOR("InPyjama - Piyush");
 MODULE_DESCRIPTION("Basic Read loadable Kernel Module");
 static struct proc_dir_entry *custom_proc_node;
